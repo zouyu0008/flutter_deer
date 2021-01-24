@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 class Utils {
 
   /// 调起拨号页
-  static void launchTelURL(String phone) async {
+  static Future<void> launchTelURL(String phone) async {
     final String url = 'tel:'+ phone;
     if (await canLaunch(url)) {
       await launch(url);
@@ -24,13 +26,15 @@ class Utils {
   /// 调起二维码扫描页
   static Future<String> scan() async {
     try {
-      const ScanOptions options = ScanOptions(
+
+      final ScanOptions options = window.locale.languageCode == 'zh' ? const ScanOptions(
         strings: {
           'cancel': '取消',
           'flash_on': '开启闪光灯',
           'flash_off': '关闭闪光灯',
         },
-      );
+      ) : const ScanOptions();
+
       final ScanResult result = await BarcodeScanner.scan(options: options);
       return result.rawContent;
     } catch (e) {
@@ -70,45 +74,6 @@ class Utils {
 
 }
 
-/// 默认dialog背景色为半透明黑色，这里修改源码改为透明
-Future<T> showTransparentDialog<T>({
-  @required BuildContext context,
-  bool barrierDismissible = true,
-  WidgetBuilder builder,
-}) {
-
-  final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
-  return showGeneralDialog(
-    context: context,
-    pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
-      final Widget pageChild = Builder(builder: builder);
-      return SafeArea(
-        child: Builder(
-            builder: (BuildContext context) {
-              return theme != null
-                  ? Theme(data: theme, child: pageChild)
-                  : pageChild;
-            }
-        ),
-      );
-    },
-    barrierDismissible: barrierDismissible,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    barrierColor: const Color(0x00FFFFFF),
-    transitionDuration: const Duration(milliseconds: 150),
-    transitionBuilder: _buildMaterialDialogTransitions,
-  );
-}
-
-Widget _buildMaterialDialogTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-  return FadeTransition(
-    opacity: CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeOut,
-    ),
-    child: child,
-  );
-}
 
 Future<T> showElasticDialog<T>({
   @required BuildContext context,

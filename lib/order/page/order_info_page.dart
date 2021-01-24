@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
-import 'package:flutter_deer/util/utils.dart';
+import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:flutter_deer/widgets/my_scroll_view.dart';
@@ -24,9 +24,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   Widget build(BuildContext context) {
     final Color red = Theme.of(context).errorColor;
     final Color blue = Theme.of(context).primaryColor;
-    final bool isDark = ThemeUtils.isDark(context);
+    final bool isDark = context.isDark;
 
-    Widget bottomMenu = Container(
+    final Widget bottomMenu = Container(
       height: 60.0,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Theme(
@@ -68,7 +68,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       ),
     );
 
-    List<Widget> children = [
+    final List<Widget> children = [
       const Text(
         '暂未接单',
         style: TextStyles.textBold24,
@@ -90,10 +90,10 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             child: MergeSemantics(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text('郭李'),
+                children: const <Widget>[
+                  Text('郭李'),
                   Gaps.vGap8,
-                  const Text('15000000000'),
+                  Text('15000000000'),
                 ],
               ),
             ),
@@ -115,10 +115,10 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       Gaps.vGap10,
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const LoadAssetImage('order/icon_address', width: 16.0, height: 20.0),
+        children: const <Widget>[
+          LoadAssetImage('order/icon_address', width: 16.0, height: 20.0),
           Gaps.hGap4,
-          const Expanded(child: Text('西安市雁塔区 鱼化寨街道唐兴路唐兴数码3楼318', maxLines: 2)),
+          Expanded(child: Text('西安市雁塔区 鱼化寨街道唐兴路唐兴数码3楼318', maxLines: 2)),
         ],
       ),
       Gaps.vGap32,
@@ -191,12 +191,12 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   }
 
   Widget _getOrderGoodsItem(int index) {
-    var item = Row(
+    final Widget item = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          child: const LoadAssetImage('order/icon_goods', width: 56.0, height: 56.0),
-          padding: const EdgeInsets.only(top: 5.0),
+        const Padding(
+          child: LoadAssetImage('order/icon_goods', width: 56.0, height: 56.0),
+          padding: EdgeInsets.only(top: 5.0),
         ),
         Gaps.hGap8,
         Expanded(
@@ -204,12 +204,12 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                index % 2 == 0 ? '泊泉雅花瓣·浪漫亲肤玫瑰沐浴乳' : '日本纳鲁火多橙饮',
+                index.isEven ? '泊泉雅花瓣·浪漫亲肤玫瑰沐浴乳' : '日本纳鲁火多橙饮',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Gaps.vGap4,
-              Text(index % 2 == 0 ? '玫瑰香 520ml' : '125ml', style: Theme.of(context).textTheme.subtitle2),
+              Text(index.isEven ? '玫瑰香 520ml' : '125ml', style: Theme.of(context).textTheme.subtitle2),
               Gaps.vGap8,
               Row(
                 children: <Widget>[
@@ -221,9 +221,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                     ),
                     height: 16.0,
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       '立减2.50元',
-                      style: const TextStyle(color: Colors.white, fontSize: Dimens.font_sp10,),
+                      style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp10,),
                     ),
                   ),
                   Gaps.hGap4,
@@ -249,7 +249,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
           ),
         ),
         Gaps.hGap8,
-        Text('x1', style: TextStyles.textSize12),
+        const Text('x1', style: TextStyles.textSize12),
         Gaps.hGap32,
         Text(Utils.formatPrice('25'), style: TextStyles.textBold14),
       ],

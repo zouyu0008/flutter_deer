@@ -31,13 +31,13 @@ class _StoreAuditResultPageState extends State<StoreAuditResultPage> {
               height: 80.0,
             ),
             Gaps.vGap12,
-            Text(
+            const Text(
               '恭喜，店铺资料审核成功',
               style: TextStyles.textSize16,
             ),
             Gaps.vGap8,
             Text(
-              '2019-02-21 15:20:10',
+              '2020-02-21 15:20:10',
               style: Theme.of(context).textTheme.subtitle2,
             ),
             Gaps.vGap8,

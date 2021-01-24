@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math show sin, pi, sqrt;
 
+import 'package:flutter/material.dart';
+import 'package:flutter_deer/res/resources.dart';
+import 'package:flutter_deer/util/theme_utils.dart';
+
+/// https://medium.com/flutterdevs/ripple-animation-in-flutter-3421cbd66a18
 class RipplesAnimation extends StatefulWidget {
   const RipplesAnimation({
     Key key,
@@ -48,13 +52,13 @@ class _RipplesAnimationState extends State<RipplesAnimation> with TickerProvider
             ),
           ),
           child: ScaleTransition(
-            scale: Tween(begin: 0.95, end: 1.0).animate(
+            scale: Tween<double>(begin: 0.95, end: 1.0).animate(
               CurvedAnimation(
                 parent: _controller,
                 curve: const PulsateCurve(),
               ),
             ),
-            child: Icon(Icons.speaker_phone, size: 44, color: Colors.white,),
+            child: const Icon(Icons.speaker_phone, size: 44, color: Colors.white,),
           ),
         ),
       ),
@@ -65,7 +69,8 @@ class _RipplesAnimationState extends State<RipplesAnimation> with TickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Flutter Ripple Demo"),
+        backgroundColor: context.isDark ? Colours.dark_bg_color : Colors.blue,
+        title: const Text('Ripple Demo'),
       ),
       body: Center(
         child: CustomPaint(
@@ -94,7 +99,7 @@ class CirclePainter extends CustomPainter {
   final Animation<double> _animation;
 
   void circle(Canvas canvas, Rect rect, double value) {
-    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0) as double;
     final Color _color = color.withOpacity(opacity);
     final double size = rect.width / 2;
     final double area = size * size;

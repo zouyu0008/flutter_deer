@@ -61,7 +61,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
 
   @override
   Widget build(BuildContext context) {
-    _unSelectedTextColor = ThemeUtils.isDark(context) ? Colors.white : Colours.dark_text_gray;
+    _unSelectedTextColor = context.isDark ? Colors.white : Colours.dark_text_gray;
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: widget.index == 1 ? '订单统计' : '交易额统计',
@@ -178,8 +178,8 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(title, style: TextStyle(color: Colors.white)),
-            Text(count, style: TextStyle(color: Colors.white)),
+            Text(title, style: const TextStyle(color: Colors.white)),
+            Text(count, style: const TextStyle(color: Colors.white)),
           ],
         ),
         Gaps.vGap4,
@@ -273,7 +273,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
   }
   
   List<Widget> _buildWeeks() {
-    List<Widget> widgets = [];
+    final List<Widget> widgets = [];
     _weeks.forEach((str) {
       widgets.add(Center(
         child: Text(str, style: Theme.of(context).textTheme.subtitle2),
@@ -283,7 +283,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
   }
 
   List<Widget> _builderCalendar() {
-    List<Widget> dayWidgets = [];
+    final List<Widget> dayWidgets = [];
     List<DateTime> list;
     if (_isExpanded) {
       list = _currentMonthsDays;
@@ -315,7 +315,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
   }
 
   List<Widget> _builderMonthCalendar() {
-    List<Widget> monthWidgets = [];
+    final List<Widget> monthWidgets = [];
     _monthList.forEach((month) {
       monthWidgets.add(
         Center(

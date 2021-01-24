@@ -46,13 +46,13 @@ class _HomeState extends State<Home> {
       OrderPage(),
       GoodsPage(),
       StatisticsPage(),
-      ShopPage(),
+      const ShopPage(),
     ];
   }
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
     if (_list == null) {
-      var _tabImages = const [
+      const _tabImages = [
         [
           LoadAssetImage('home/icon_order', width: _imageSize, color: Colours.unselected_item_color,),
           LoadAssetImage('home/icon_order', width: _imageSize, color: Colours.app_main,),
@@ -72,12 +72,9 @@ class _HomeState extends State<Home> {
       ];
       _list = List.generate(_tabImages.length, (i) {
         return BottomNavigationBarItem(
-            icon: _tabImages[i][0],
-            activeIcon: _tabImages[i][1],
-            title: Padding(
-              padding: const EdgeInsets.only(top: 1.5),
-              child: Text(_appBarTitles[i], key: Key(_appBarTitles[i]),),
-            )
+          icon: _tabImages[i][0],
+          activeIcon: _tabImages[i][1],
+          label: _appBarTitles[i],
         );
       });
     }
@@ -86,7 +83,7 @@ class _HomeState extends State<Home> {
 
   List<BottomNavigationBarItem> _buildDarkBottomNavigationBarItem() {
     if (_listDark == null) {
-      var _tabImagesDark = const [
+      const _tabImagesDark = [
         [
           LoadAssetImage('home/icon_order', width: _imageSize),
           LoadAssetImage('home/icon_order', width: _imageSize, color: Colours.dark_app_main,),
@@ -107,12 +104,9 @@ class _HomeState extends State<Home> {
 
       _listDark = List.generate(_tabImagesDark.length, (i) {
         return BottomNavigationBarItem(
-            icon: _tabImagesDark[i][0],
-            activeIcon: _tabImagesDark[i][1],
-            title: Padding(
-              padding: const EdgeInsets.only(top: 1.5),
-              child: Text(_appBarTitles[i], key: Key(_appBarTitles[i]),),
-            )
+          icon: _tabImagesDark[i][0],
+          activeIcon: _tabImagesDark[i][1],
+          label: _appBarTitles[i],
         );
       });
     }
@@ -121,7 +115,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDark = ThemeUtils.isDark(context);
+    final bool isDark = context.isDark;
     return ChangeNotifierProvider<HomeProvider>(
       create: (_) => provider,
       child: DoubleTapBackExitApp(
@@ -129,7 +123,7 @@ class _HomeState extends State<Home> {
           bottomNavigationBar: Consumer<HomeProvider>(
             builder: (_, provider, __) {
               return BottomNavigationBar(
-                backgroundColor: ThemeUtils.getBackgroundColor(context),
+                backgroundColor: context.backgroundColor,
                 items: isDark ? _buildDarkBottomNavigationBarItem() : _buildBottomNavigationBarItem(),
                 type: BottomNavigationBarType.fixed,
                 currentIndex: provider.value,

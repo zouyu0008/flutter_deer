@@ -31,7 +31,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     Color _backgroundColor;
 
     if (backgroundColor == null) {
-      _backgroundColor = ThemeUtils.getBackgroundColor(context);
+      _backgroundColor = context.backgroundColor;
     } else {
       _backgroundColor = backgroundColor;
     }
@@ -39,7 +39,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final SystemUiOverlayStyle _overlayStyle = ThemeData.estimateBrightnessForColor(_backgroundColor) == Brightness.dark
         ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
 
-    Widget back = isBack ? IconButton(
+    final Widget back = isBack ? IconButton(
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         Navigator.maybePop(context);
@@ -52,7 +52,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     ) : Gaps.empty;
 
-    Widget action = actionName.isNotEmpty ? Positioned(
+    final Widget action = actionName.isNotEmpty ? Positioned(
       right: 0.0,
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -63,14 +63,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: FlatButton(
           child: Text(actionName, key: const Key('actionName')),
-          textColor: ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
+          textColor: context.isDark ? Colours.dark_text : Colours.text,
           highlightColor: Colors.transparent,
           onPressed: onPressed,
         ),
       ),
     ) : Gaps.empty;
 
-    Widget titleWidget = Semantics(
+    final Widget titleWidget = Semantics(
       namesRoute: true,
       header: true,
       child: Container(
@@ -78,7 +78,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         width: double.infinity,
         child: Text(
           title.isEmpty ? centerTitle : title,
-          style: TextStyle(fontSize: Dimens.font_sp18,),
+          style: const TextStyle(fontSize: Dimens.font_sp18,),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 48.0),
       ),

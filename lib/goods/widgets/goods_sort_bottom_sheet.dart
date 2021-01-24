@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 
 
 /// design/4商品/index.html#artboard20
-class GoodsSortDialog extends StatefulWidget {
+class GoodsSortBottomSheet extends StatefulWidget {
 
-  const GoodsSortDialog({
+  const GoodsSortBottomSheet({
     Key key,
     @required this.provider,
     @required this.onSelected,
@@ -23,10 +23,10 @@ class GoodsSortDialog extends StatefulWidget {
   final GoodsSortProvider provider;
   
   @override
-  GoodsSortDialogState createState() => GoodsSortDialogState();
+  GoodsSortBottomSheetState createState() => GoodsSortBottomSheetState();
 }
 
-class GoodsSortDialogState extends State<GoodsSortDialog> with SingleTickerProviderStateMixin {
+class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleTickerProviderStateMixin {
   
   TabController _tabController;
   final ScrollController _controller = ScrollController();
@@ -52,7 +52,7 @@ class GoodsSortDialogState extends State<GoodsSortDialog> with SingleTickerProvi
   Widget build(BuildContext context) {
     return Material(
       child: SizedBox(
-        height: Screen.height(context) * 11.0 / 16.0,
+        height: context.height * 11.0 / 16.0,
         /// 为保留状态，选择ChangeNotifierProvider.value，销毁自己手动处理（见 goods_edit_page.dart ：dispose()）
         child: ChangeNotifierProvider<GoodsSortProvider>.value(
           value: widget.provider,
@@ -65,7 +65,7 @@ class GoodsSortDialogState extends State<GoodsSortDialog> with SingleTickerProvi
                   Gaps.line,
                   Container(
                     // 隐藏点击效果
-                    color: ThemeUtils.getDialogBackgroundColor(context),
+                    color: context.dialogBackgroundColor,
                     child: TabBar(
                       controller: _tabController,
                       isScrollable: true,
@@ -80,7 +80,7 @@ class GoodsSortDialogState extends State<GoodsSortDialog> with SingleTickerProvi
                         _controller.animateTo(provider.positions[provider.index] * 48.0, duration: const Duration(milliseconds: 10), curve: Curves.ease);
                       },
                       indicatorSize: TabBarIndicatorSize.label,
-                      unselectedLabelColor: ThemeUtils.isDark(context) ? Colours.text_gray : Colours.text,
+                      unselectedLabelColor: context.isDark ? Colours.text_gray : Colours.text,
                       labelColor: Theme.of(context).primaryColor,
                       tabs: provider.myTabs,
                     ),
@@ -91,15 +91,15 @@ class GoodsSortDialogState extends State<GoodsSortDialog> with SingleTickerProvi
                       controller: _controller,
                       itemExtent: 48.0,
                       itemBuilder: (_, index) {
-                        bool flag = provider.mList[index]['name'] == provider.myTabs[provider.index].text;
+                        final bool flag = provider.mList[index]['name'] == provider.myTabs[provider.index].text;
                         return InkWell(
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             alignment: Alignment.centerLeft,
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                    provider.mList[index]['name'],
+                                    provider.mList[index]['name'] as String,
                                     style: flag ? TextStyle(
                                       fontSize: Dimens.font_sp14,
                                       color: Theme.of(context).primaryColor,
@@ -113,14 +113,14 @@ class GoodsSortDialogState extends State<GoodsSortDialog> with SingleTickerProvi
                             ),
                           ),
                           onTap: () {
-                            provider.myTabs[provider.index] = Tab(text: provider.mList[index]['name']);
+                            provider.myTabs[provider.index] = Tab(text: provider.mList[index]['name'] as String);
                             provider.positions[provider.index] = index;
 
                             provider.indexIncrement();
                             provider.setListAndChangeTab();
                             if (provider.index > 2) {
                               provider.setIndex(2);
-                              widget.onSelected(provider.mList[index]['id'], provider.mList[index]['name']);
+                              widget.onSelected(provider.mList[index]['id'] as String, provider.mList[index]['name'] as String);
                               NavigatorUtils.goBack(context);
                             }
                             _controller.animateTo(0.0, duration: const Duration(milliseconds: 100), curve: Curves.ease);

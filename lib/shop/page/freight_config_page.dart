@@ -103,13 +103,14 @@ class _FreightConfigPageState extends State<FreightConfigPage> {
           margin: const EdgeInsets.only(bottom: 8.0),
           padding: const EdgeInsets.symmetric(vertical: 32.0),
           decoration: BoxDecoration(
-            color: ThemeUtils.isDark(context) ? Colours.dark_bg_gray : Colours.bg_gray,
+            color: context.isDark ? Colours.dark_bg_gray : Colours.bg_gray,
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: const LoadAssetImage('shop/tj',),
         ),
       ),
-    ) : Padding(
+    ) :
+    Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: MyCard(
         child: Padding(
@@ -253,6 +254,7 @@ class _FreightConfigPageState extends State<FreightConfigPage> {
       builder: (BuildContext context) {
         return PriceInputDialog(
           title: _list[index].type == 1 ? '运费比率' : '运费金额',
+          inputMaxPrice: _list[index].type == 1 ? 100 : 100000,
           onPressed: (value) {
             setState(() {
               _list[index].price = value;

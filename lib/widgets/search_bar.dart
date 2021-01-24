@@ -42,10 +42,10 @@ class _SearchBarState extends State<SearchBar> {
   
   @override
   Widget build(BuildContext context) {
-    final bool isDark = ThemeUtils.isDark(context);
+    final bool isDark = context.isDark;
     final Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
     
-    Widget back = Semantics(
+    final Widget back = Semantics(
       label: '返回',
       child: SizedBox(
         width: 48.0,
@@ -68,7 +68,7 @@ class _SearchBarState extends State<SearchBar> {
       ),
     );
     
-    Widget textField = Expanded(
+    final Widget textField = Expanded(
       child: Container(
         height: 32.0,
         decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class _SearchBarState extends State<SearchBar> {
           focusNode: _focus,
           maxLines: 1,
           textInputAction: TextInputAction.search,
-          onSubmitted: (val) {
+          onSubmitted: (String val) {
             _focus.unfocus();
             // 点击软键盘的动作按钮时的回调
             widget.onPressed(val);
@@ -115,7 +115,7 @@ class _SearchBarState extends State<SearchBar> {
       ),
     );
     
-    Widget search = Theme(
+    final Widget search = Theme(
       data: Theme.of(context).copyWith(
         buttonTheme: ButtonThemeData(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -134,14 +134,14 @@ class _SearchBarState extends State<SearchBar> {
           _focus.unfocus();
           widget.onPressed(_controller.text);
         },
-        child: Text('搜索', style: TextStyle(fontSize: Dimens.font_sp14)),
+        child: const Text('搜索', style: TextStyle(fontSize: Dimens.font_sp14)),
       ),
     );
     
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: Material(
-        color: ThemeUtils.getBackgroundColor(context),
+        color: context.backgroundColor,
         child: SafeArea(
           child: Container(
             child: Row(

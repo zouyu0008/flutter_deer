@@ -57,19 +57,19 @@ iOS needs to download the code to run.
 
 [![Build Status](https://github.com/simplezhli/flutter_deer/workflows/flutter_deer%20driver/badge.svg?branch=master)](https://github.com/simplezhli/flutter_deer/actions?query=workflow%3A%22flutter_deer+driver%22+branch%3Amaster)
 
-    1. Flutter version 1.17.5
-     
-    2. Dart version 2.8.4
+    1. Flutter version 1.22.4
+
+    2. Dart version 2.10.4
 
 ## Precautions
 
 - iOS can execute commands `flutter build ios` to create `release` versions. Android can execute commands `flutter build apk` to create `release` versions.
 
-- If there is a problem with the project, you can try to find a solution in the [iOS problem summary](./iOS问题汇总.md) and [Android problem summary](./Android问题汇总.md).
+- If there is a problem with the project, you can try to find a solution in the [iOS problem summary](./doc/iOS问题汇总.md) and [Android problem summary](./doc/Android问题汇总.md).
 
 - Due to some plug-ins, this project has imperfect support on the web (mainly in terms of functionality, and UI issues are minor). Those who are interested can run the experience by themselves.
         
-- You can execute integration test commands to `flutter drive --profile --target=test_driver/driver.dart` view function demonstrations.
+- You can execute integration test commands to `flutter drive --target=test_driver/driver.dart` view function demonstrations.
 
 - I have added a relative path to the design drawings in the page notes. I can search or find the corresponding page. I hope it will help you.
 
@@ -100,6 +100,12 @@ iOS needs to download the code to run.
 - [玩玩Flutter Web —— 实现高德地图插件](https://weilu.blog.csdn.net/article/details/106465792)
 
 - [Flutter动画曲线Curves 效果一览](https://weilu.blog.csdn.net/article/details/95632571)
+
+- [Flutter状态管理之Riverpod](https://weilu.blog.csdn.net/article/details/108352306)
+
+- [【译】正确操作Dart中的字符串](https://weilu.blog.csdn.net/article/details/107857569)
+
+- [【译】学习Flutter中新的Navigator和Router系统](https://weilu.blog.csdn.net/article/details/108902282)
     
 ## Tripartite library used
 

@@ -40,7 +40,7 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
     // 初始化动画控制
     _controller = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
     // 动画曲线
-    var _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
+    final _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
     _animation = Tween(begin: 0.0, end: 1.1).animate(_curvedAnimation) ..addStatusListener((status) {
       _animationStatus = status;
     });
@@ -70,7 +70,8 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
     await Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _page = 1;
-        _list = List.generate(widget.index == 0 ? 3 : 10, (i) => GoodsItemEntity(icon: _imgList[i % 6], title: '八月十五中秋月饼礼盒', type: i % 3));
+        _list = List.generate(widget.index == 0 ? 3 : 10, (i) =>
+            GoodsItemEntity(icon: _imgList[i % 6], title: '八月十五中秋月饼礼盒', type: i % 3));
       });
       _setGoodsCount(_list.length);
     });
@@ -79,7 +80,8 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
   Future _loadMore() async {
     await Future.delayed(const Duration(seconds: 2), () {
       setState(() {
-        _list.addAll(List.generate(10, (i) => GoodsItemEntity(icon: _imgList[i % 6], title: '八月十五中秋月饼礼盒', type: i % 3)));
+        _list.addAll(List.generate(10, (i) =>
+            GoodsItemEntity(icon: _imgList[i % 6], title: '八月十五中秋月饼礼盒', type: i % 3)));
         _page ++;
       });
       _setGoodsCount(_list.length);

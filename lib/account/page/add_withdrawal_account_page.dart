@@ -5,7 +5,7 @@ import 'package:flutter_deer/account/models/city_entity.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
-import 'package:flutter_deer/util/utils.dart';
+import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 import 'package:flutter_deer/widgets/my_scroll_view.dart';
@@ -28,8 +28,8 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
   
   @override
   Widget build(BuildContext context) {
-    var style = Theme.of(context).textTheme.subtitle2.copyWith(fontSize: Dimens.font_sp14);
-    var children = [
+    final TextStyle style = Theme.of(context).textTheme.subtitle2.copyWith(fontSize: Dimens.font_sp14);
+    final List<Widget> children = <Widget>[
       Gaps.vGap5,
       SelectedItem(
         title: '账号类型',
@@ -41,11 +41,11 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
         visible: !_isWechat,
         child: Column(
           children: <Widget>[
-            TextFieldItem(
+            const TextFieldItem(
               title: '持  卡  人',
               hintText: '填写您的真实姓名',
             ),
-            TextFieldItem(
+            const TextFieldItem(
               title: '银行卡号',
               keyboardType: TextInputType.number,
               hintText: '填写银行卡号',
@@ -55,9 +55,9 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
               content: _city.isEmpty ? '选择开户城市' : _city,
               style: _city.isEmpty ? style: null,
               onTap: () {
-                NavigatorUtils.pushResult(context, AccountRouter.citySelectPage, (result) {
+                NavigatorUtils.pushResult(context, AccountRouter.citySelectPage, (Object result) {
                   setState(() {
-                    var model = result as CityEntity;
+                    final CityEntity model = result as CityEntity;
                     _city = model.name;
                   });
                 });
@@ -68,9 +68,9 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
               content: _bank.isEmpty ? '选择开户银行' : _bank,
               style: _bank.isEmpty ? style : null,
               onTap: () {
-                NavigatorUtils.pushResult(context, '${AccountRouter.bankSelectPage}?type=0', (result) {
+                NavigatorUtils.pushResult(context, '${AccountRouter.bankSelectPage}?type=0', (Object result) {
                   setState(() {
-                    var model = result as BankEntity;
+                    final BankEntity model = result as BankEntity;
                     _bank = model.bankName;
                   });
                 });
@@ -81,9 +81,9 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
               content: _bank1.isEmpty ? '选择开户支行' : _bank1,
               style: _bank1.isEmpty ? style : null,
               onTap: () {
-                NavigatorUtils.pushResult(context, '${AccountRouter.bankSelectPage}?type=1', (result) {
+                NavigatorUtils.pushResult(context, '${AccountRouter.bankSelectPage}?type=1', (Object result) {
                   setState(() {
-                    var model = result as BankEntity;
+                    final BankEntity model = result as BankEntity;
                     _bank1 = model.bankName;
                   });
                 });
@@ -133,28 +133,30 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
     showElasticDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        final Color textColor = Theme.of(context).primaryColor;
+        const OutlinedBorder buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0)));
         return Material(
           type: MaterialType.transparency,
           child: Center(
             child: Container(
               decoration: BoxDecoration(
-                color: ThemeUtils.getDialogBackgroundColor(context),
+                color: context.dialogBackgroundColor,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               width: 270.0,
               height: 190.0,
               padding: const EdgeInsets.only(top: 24.0),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  buttonTheme: ButtonThemeData(
-                    minWidth: double.infinity,
-                  ),
-                  textTheme: TextTheme(
-                      button: TextStyle(
-                        fontSize: Dimens.font_sp14,
-                      )
-                  ),
+              child: TextButtonTheme(
+                data: TextButtonThemeData(
+                  style: ButtonStyle(
+                    // 文字颜色
+                    foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+                    // 按下高亮颜色
+                    shadowColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor.withOpacity(0.2)),
+                    // 按钮大小
+                    minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, double.infinity)),
+                    // 修改默认圆角
+                    shape: MaterialStateProperty.all<OutlinedBorder>(buttonShape),
+                  )
                 ),
                 child: Column(
                   children: <Widget>[
@@ -165,9 +167,8 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
                     Gaps.vGap16,
                     Gaps.line,
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         child: const Text('微信'),
-                        textColor: textColor,
                         onPressed: () {
                           _accountType = '微信';
                           _dialogSelect(true);
@@ -176,9 +177,8 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
                     ),
                     Gaps.line,
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         child: const Text('银行卡(对私账户)'),
-                        textColor: textColor,
                         onPressed: () {
                           _accountType = '银行卡(对私账户)';
                           _dialogSelect(false);
@@ -187,9 +187,8 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
                     ),
                     Gaps.line,
                     Expanded(
-                      child: FlatButton(
+                      child: TextButton(
                         child: const Text('银行卡(对公账户)'),
-                        textColor: textColor,
                         onPressed: () {
                           _accountType = '银行卡(对公账户)';
                           _dialogSelect(false);

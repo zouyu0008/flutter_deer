@@ -8,22 +8,22 @@ import 'package:flutter_deer/util/toast.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 
 /// design/6店铺-账户/index.html#artboard13
-class WithdrawalPasswordSettingDialog extends StatefulWidget {
+class WithdrawalPasswordSetting extends StatefulWidget {
   @override
-  _WithdrawalPasswordSettingDialogState createState() => _WithdrawalPasswordSettingDialogState();
+  _WithdrawalPasswordSettingState createState() => _WithdrawalPasswordSettingState();
 }
 
-class _WithdrawalPasswordSettingDialogState extends State<WithdrawalPasswordSettingDialog> {
+class _WithdrawalPasswordSettingState extends State<WithdrawalPasswordSetting> {
 
   int _index = 0;
   final _list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0];
-  List<String> _codeList = ['', '', '', '', '', ''];
+  final List<String> _codeList = ['', '', '', '', '', ''];
   
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ThemeUtils.getDialogBackgroundColor(context),
-      height: Screen.height(context) * 7 / 10.0,
+      color: context.dialogBackgroundColor,
+      height: context.height * 7 / 10.0,
       child: Column(
         children: <Widget>[
           Stack(
@@ -72,7 +72,7 @@ class _WithdrawalPasswordSettingDialogState extends State<WithdrawalPasswordSett
                   ),
                 ),
                 Gaps.vGap10,
-                Text(('提现密码不可为连续、重复的数字。'), style: Theme.of(context).textTheme.subtitle2),
+                Text('提现密码不可为连续、重复的数字。', style: Theme.of(context).textTheme.subtitle2),
               ],
             ),
           ),
@@ -82,7 +82,7 @@ class _WithdrawalPasswordSettingDialogState extends State<WithdrawalPasswordSett
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 1.953,
                 mainAxisSpacing: 0.6,
@@ -98,13 +98,13 @@ class _WithdrawalPasswordSettingDialogState extends State<WithdrawalPasswordSett
   }
 
   Widget _buildButton(int index) {
-    final color = ThemeUtils.isDark(context) ? Colours.dark_bg_gray : Colours.dark_button_text;
+    final color = context.isDark ? Colours.dark_bg_gray : Colours.dark_button_text;
     return Material(
       color: (index == 9 || index == 11) ? color : null,
       child: InkWell(
         child: Center(
           child: index == 11 ? Semantics(label: '删除', child: const LoadAssetImage('account/del', width: 32.0)) : index == 9 ? Semantics(label: '无效', child: Gaps.empty) :
-          Text(_list[index].toString(), style: TextStyle(fontSize: 26.0)),
+          Text(_list[index].toString(), style: const TextStyle(fontSize: 26.0)),
         ),
         onTap: () {
           if (index == 9) {

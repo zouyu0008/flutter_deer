@@ -35,7 +35,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var time = Row(
+    final Widget time = Row(
       children: <Widget>[
         _buildSelectedText(_initialDay.year.toString(), 0),
         Gaps.hGap12,
@@ -152,7 +152,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
                     shape: BoxShape.circle,
                     color: PieChart.colorList[index]
                 ),
-                child: Text('${index + 1}', style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp12, fontWeight: FontWeight.bold)),
+                child: Text('${index + 1}', style: const TextStyle(color: Colors.white, fontSize: Dimens.font_sp12, fontWeight: FontWeight.bold)),
               ),
               Gaps.hGap4,
               Container(
@@ -173,7 +173,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('那鲁火多饮料', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimens.font_sp12)),
+                    const Text('那鲁火多饮料', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimens.font_sp12)),
                     Text('250ml', style: Theme.of(context).textTheme.subtitle2),
                   ],
                 ),
@@ -207,7 +207,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
   }
 
   Widget _buildSelectedText(String text, int index) {
-    final Color unSelectedTextColor = ThemeUtils.isDark(context) ? Colors.white : Colours.dark_text_gray;
+    final Color unSelectedTextColor = context.isDark ? Colors.white : Colours.dark_text_gray;
     return SelectedDate(
       text,
       fontSize: Dimens.font_sp15,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_deer/goods/models/goods_item_entity.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
-import 'package:flutter_deer/util/utils.dart';
+import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 
 import 'menu_reveal.dart';
@@ -38,7 +38,7 @@ class GoodsItem extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    Row child = Row(
+    final Row child = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ExcludeSemantics(child: LoadImage(item.icon, width: 72.0, height: 72.0)),
@@ -136,7 +136,7 @@ class GoodsItem extends StatelessWidget {
       child: AnimatedBuilder(
         animation: animation,
         child: _buildGoodsMenuContent(context),
-        builder:(_, child) {
+        builder:(_, Widget child) {
           return MenuReveal(
             revealPercent: animation.value,
             child: child
@@ -147,7 +147,7 @@ class GoodsItem extends StatelessWidget {
   }
 
   Widget _buildGoodsMenuContent(BuildContext context) {
-    final bool isDark = ThemeUtils.isDark(context);
+    final bool isDark = context.isDark;
     final Color buttonColor = isDark ? Colours.dark_text : Colors.white;
     return InkWell(
       onTap: onTapMenuClose,
@@ -164,7 +164,7 @@ class GoodsItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(24.0),
               ),
             ),
-            textTheme: TextTheme(
+            textTheme: const TextTheme(
               button: TextStyle(
                 fontSize: Dimens.font_sp16,
               ),

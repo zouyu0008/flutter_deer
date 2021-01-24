@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_deer/util/device_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -25,6 +26,15 @@ class _WebViewPageState extends State<WebViewPage> {
   final Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
+  void initState() {
+    super.initState();
+    // Enable hybrid composition.
+    if (Device.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
       future: _controller.future,
@@ -32,7 +42,7 @@ class _WebViewPageState extends State<WebViewPage> {
         return WillPopScope(
           onWillPop: () async {
             if (snapshot.hasData) {
-              bool canGoBack = await snapshot.data.canGoBack();
+              final bool canGoBack = await snapshot.data.canGoBack();
               if (canGoBack) {
                 // 网页可以返回时，优先返回上一页
                 await snapshot.data.goBack();

@@ -16,7 +16,7 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDark = ThemeUtils.isDark(context);
+    final bool isDark = context.isDark;
     return FlatButton(
       onPressed: onPressed,
       textColor: isDark ? Colours.dark_button_text : Colors.white,
@@ -28,7 +28,7 @@ class MyButton extends StatelessWidget {
         height: 48,
         width: double.infinity,
         alignment: Alignment.center,
-        child: Text(text, style: TextStyle(fontSize: Dimens.font_sp18),),
+        child: Text(text, style: const TextStyle(fontSize: Dimens.font_sp18),),
       ),
     );
   }

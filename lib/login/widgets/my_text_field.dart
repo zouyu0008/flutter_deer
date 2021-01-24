@@ -60,7 +60,7 @@ class _MyTextFieldState extends State<MyTextField> {
   }
   
   void isEmpty() {
-    bool isEmpty = widget.controller.text.isEmpty;
+    final bool isEmpty = widget.controller.text.isEmpty;
     /// 状态不一样在刷新，避免重复不必要的setState
     if (isEmpty != _isShowDelete) {
       setState(() {
@@ -77,7 +77,7 @@ class _MyTextFieldState extends State<MyTextField> {
   }
 
   Future _getVCode() async {
-    bool isSuccess = await widget.getVCode();
+    final bool isSuccess = await widget.getVCode();
     if (isSuccess != null && isSuccess) {
       setState(() {
         _currentSecond = _second;
@@ -100,14 +100,14 @@ class _MyTextFieldState extends State<MyTextField> {
     final TextField textField = TextField(
       focusNode: widget.focusNode,
       maxLength: widget.maxLength,
-      obscureText: widget.isInputPwd ? !_isShowPwd : false,
+      obscureText: widget.isInputPwd && !_isShowPwd,
       autofocus: widget.autoFocus,
       controller: widget.controller,
       textInputAction: TextInputAction.done,
       keyboardType: widget.keyboardType,
-      // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
+      // 数字、手机号限制格式为0到9， 密码限制不包含汉字
       inputFormatters: (widget.keyboardType == TextInputType.number || widget.keyboardType == TextInputType.phone) ? 
-      [WhitelistingTextInputFormatter(RegExp('[0-9]'))] : [BlacklistingTextInputFormatter(RegExp('[\u4e00-\u9fa5]'))],
+      [FilteringTextInputFormatter.allow(RegExp('[0-9]'))] : [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))],
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
         hintText: widget.hintText,
@@ -127,7 +127,7 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
     );
     
-    Widget clear = Semantics(
+    final Widget clear = Semantics(
       label: '清空',
       hint: '清空输入框',
       child: GestureDetector(
@@ -140,7 +140,7 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
     );
 
-    Widget pwdVisible = Semantics(
+    final Widget pwdVisible = Semantics(
       label: '密码可见开关',
       hint: '密码是否可见',
       child: GestureDetector(
@@ -158,7 +158,7 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
     );
 
-    Widget getVCodeButton = Theme(
+    final Widget getVCodeButton = Theme(
       data: Theme.of(context).copyWith(
         buttonTheme: const ButtonThemeData(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -183,7 +183,7 @@ class _MyTextFieldState extends State<MyTextField> {
         ),
         child: Text(
           _clickable ? AppLocalizations.of(context).getVerificationCode : '（$_currentSecond s）',
-          style: TextStyle(fontSize: Dimens.font_sp12),
+          style: const TextStyle(fontSize: Dimens.font_sp12),
         ),
       ),
     );

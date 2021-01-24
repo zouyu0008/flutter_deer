@@ -16,9 +16,10 @@ class AuthInterceptor extends Interceptor {
   Future onRequest(RequestOptions options) {
     final String accessToken = SpUtil.getString(Constant.accessToken);
     if (accessToken.isNotEmpty) {
-      options.headers['Authorization'] = 'Bearer $accessToken';
+      options.headers['Authorization'] = 'token $accessToken';
     }
-   
+    // https://developer.github.com/v3/#user-agent-required
+    options.headers['User-Agent'] = 'Mozilla/5.0';
     return super.onRequest(options);
   }
 }
@@ -31,9 +32,9 @@ class TokenInterceptor extends Interceptor {
     params['refresh_token'] = SpUtil.getString(Constant.refreshToken);
     try {
       _tokenDio.options = DioUtils.instance.dio.options;
-      final Response response = await _tokenDio.post('lgn/refreshToken', data: params);
+      final Response response = await _tokenDio.post<dynamic>('lgn/refreshToken', data: params);
       if (response.statusCode == ExceptionHandle.success) {
-        return json.decode(response.data.toString())['access_token'];
+        return json.decode(response.data.toString())['access_token'] as String;
       }
     } catch(e) {
       Log.e('刷新Token失败！');
@@ -41,7 +42,7 @@ class TokenInterceptor extends Interceptor {
     return null;
   }
 
-  Dio _tokenDio = Dio();
+  final Dio _tokenDio = Dio();
 
   @override
   Future<Object> onResponse(Response response) async {
@@ -62,7 +63,7 @@ class TokenInterceptor extends Interceptor {
         try {
           Log.e('----------- 重新请求接口 ------------');
           /// 避免重复执行拦截器，使用tokenDio
-          final Response response = await _tokenDio.request(request.path,
+          final Response response = await _tokenDio.request<dynamic>(request.path,
               data: request.data,
               queryParameters: request.queryParameters,
               cancelToken: request.cancelToken,
@@ -102,7 +103,7 @@ class LoggingInterceptor extends Interceptor{
   @override
   Future onResponse(Response response) {
     _endTime = DateTime.now();
-    int duration = _endTime.difference(_startTime).inMilliseconds;
+    final int duration = _endTime.difference(_startTime).inMilliseconds;
     if (response.statusCode == ExceptionHandle.success) {
       Log.d('ResponseCode: ${response.statusCode}');
     } else {
@@ -127,15 +128,15 @@ class AdapterInterceptor extends Interceptor{
   static const String _kSlash = '\'';
   static const String _kMessage = 'message';
 
-  static const String _kDefaultText = '\"无返回信息\"';
+  static const String _kDefaultText = '"无返回信息"';
   static const String _kNotFound = '未找到查询信息';
 
-  static const String _kFailureFormat = '{\"code\":%d,\"message\":\"%s\"}';
-  static const String _kSuccessFormat = '{\"code\":0,\"data\":%s,\"message\":\"\"}';
+  static const String _kFailureFormat = '{"code":%d,"message":"%s"}';
+  static const String _kSuccessFormat = '{"code":0,"data":%s,"message":""}';
   
   @override
   Future onResponse(Response response) {
-    Response r = adapterData(response);
+    final Response r = adapterData(response);
     return super.onResponse(r);
   }
   
@@ -169,15 +170,15 @@ class AdapterInterceptor extends Interceptor{
         } else {
           String msg;
           try {
-            content = content.replaceAll("\\", '');
+            content = content.replaceAll(r'\', '');
             if (_kSlash == content.substring(0, 1)) {
               content = content.substring(1, content.length - 1);
             }
-            Map<String, dynamic> map = json.decode(content);
+            final Map<String, dynamic> map = json.decode(content) as Map<String, dynamic>;
             if (map.containsKey(_kMessage)) {
-              msg = map[_kMessage];
+              msg = map[_kMessage] as String;
             } else if (map.containsKey(_kMsg)) {
-              msg = map[_kMsg];
+              msg = map[_kMsg] as String;
             } else {
               msg = '未知异常';
             }
@@ -189,7 +190,7 @@ class AdapterInterceptor extends Interceptor{
               response.statusCode = ExceptionHandle.success;
             }
           } catch (e) {
-            Log.d('异常信息：$e');
+//            Log.d('异常信息：$e');
             // 解析异常直接按照返回原数据处理（一般为返回500,503 HTML页面代码）
             result = sprintf(_kFailureFormat, [response.statusCode, '服务器异常(${response.statusCode})']);
           }

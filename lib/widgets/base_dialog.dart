@@ -22,7 +22,7 @@ class BaseDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Widget dialogTitle = Visibility(
+    final Widget dialogTitle = Visibility(
       visible: !hiddenTitle,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
@@ -33,7 +33,7 @@ class BaseDialog extends StatelessWidget {
       ),
     );
 
-    Widget bottomButton = Row(
+    final Widget bottomButton = Row(
       children: <Widget>[
         _DialogButton(
           text: '取消',
@@ -53,7 +53,7 @@ class BaseDialog extends StatelessWidget {
       ],
     );
     
-    Widget body = Material(
+    final Widget body = Material(
       borderRadius: BorderRadius.circular(8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -110,7 +110,7 @@ class _DialogButton extends StatelessWidget {
         child: FlatButton(
           child: Text(
             text,
-            style: TextStyle(fontSize: Dimens.font_sp18),
+            style: const TextStyle(fontSize: Dimens.font_sp18),
           ),
           textColor: textColor,
           onPressed: onPressed,

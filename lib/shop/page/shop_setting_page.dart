@@ -10,7 +10,7 @@ import 'package:flutter_deer/shop/shop_router.dart';
 import 'package:flutter_deer/shop/widgets/price_input_dialog.dart';
 import 'package:flutter_deer/shop/widgets/send_type_dialog.dart';
 import 'package:flutter_deer/util/app_navigator.dart';
-import 'package:flutter_deer/util/utils.dart';
+import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/click_item.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
@@ -36,7 +36,7 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
   
   String _getPayType() {
     String payType = '';
-    for (int s in _selectValue) {
+    for (final int s in _selectValue) {
       if (s == 0) {
         payType = '$payType在线支付+';
       } else if (s == 1) {
@@ -97,7 +97,7 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
                     content: _shopIntroduction,
                   ), (result) {
                     setState(() {
-                      _shopIntroduction =result.toString();
+                      _shopIntroduction = result.toString();
                     });
                   });
             },
@@ -113,7 +113,7 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
                   content: _securityService,
                 ), (result) {
                   setState(() {
-                    _securityService =result.toString();
+                    _securityService = result.toString();
                   });
                 });
             },

@@ -30,11 +30,11 @@ class AccountRouter implements IRouterProvider{
   static String withdrawalResultPage = '/account/withdrawalResult';
   
   @override
-  void initRouter(Router router) {
+  void initRouter(FluroRouter router) {
     router.define(accountPage, handler: Handler(handlerFunc: (_, __) => AccountPage()));
     router.define(accountRecordListPage, handler: Handler(handlerFunc: (_, __) => AccountRecordListPage()));
     router.define(addWithdrawalAccountPage, handler: Handler(handlerFunc: (_, __) => AddWithdrawalAccountPage()));
-    router.define(bankSelectPage, handler: Handler(handlerFunc: (_, params) {
+    router.define(bankSelectPage, handler: Handler(handlerFunc: (_, Map<String, List<String>> params) {
       final int type = int.parse(params['type']?.first);
       return BankSelectPage(type: type);
     }));

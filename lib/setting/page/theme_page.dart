@@ -13,7 +13,7 @@ class ThemePage extends StatefulWidget {
 
 class _ThemePageState extends State<ThemePage> {
 
-  final List<String> _list = ['跟随系统', '开启', '关闭'];
+  final List<String> _list = <String>['跟随系统', '开启', '关闭'];
 //  StreamSubscription _subscription;
   
 //  @override
@@ -24,7 +24,7 @@ class _ThemePageState extends State<ThemePage> {
 
   @override
   Widget build(BuildContext context) {
-    String theme = SpUtil.getString(Constant.theme);
+    final String theme = SpUtil.getString(Constant.theme);
     String themeMode;
     switch(theme) {
       case 'Dark':
@@ -43,11 +43,11 @@ class _ThemePageState extends State<ThemePage> {
       ),
       body: ListView.separated(
         itemCount: _list.length,
-        separatorBuilder: (_, index) => const Divider(),
-        itemBuilder: (_, index) {
+        separatorBuilder: (_, __) => const Divider(),
+        itemBuilder: (_, int index) {
           return InkWell(
             onTap: () {
-              ThemeMode themeMode = index == 0 ? ThemeMode.system : (index == 1 ? ThemeMode.dark : ThemeMode.light);
+              final ThemeMode themeMode = index == 0 ? ThemeMode.system : (index == 1 ? ThemeMode.dark : ThemeMode.light);
 //              Provider.of<ThemeProvider>(context, listen: false).setTheme(themeMode);
               /// 与上方等价，provider 4.1.0添加的拓展方法
               context.read<ThemeProvider>().setTheme(themeMode);
@@ -71,7 +71,7 @@ class _ThemePageState extends State<ThemePage> {
                   ),
                   Opacity(
                     opacity: themeMode == _list[index] ? 1 : 0,
-                    child: Icon(Icons.done, color: Colors.blue),
+                    child: const Icon(Icons.done, color: Colors.blue),
                   )
                 ],
               ),

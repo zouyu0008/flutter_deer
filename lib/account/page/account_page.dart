@@ -27,37 +27,7 @@ class _AccountPageState extends State<AccountPage> {
         child: Column(
           children: <Widget>[
             Gaps.vGap5,
-            AspectRatio(
-              aspectRatio: 1.85,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 6.0),
-                padding: const EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: ImageUtils.getAssetImage('account/bg'),
-                    fit: BoxFit.fill
-                  )
-                ),
-                child: Column(
-                  children: <Widget>[
-                    const _AccountMoney(
-                      title: '当前余额(元)',
-                      money: '30.12',
-                      alignment: MainAxisAlignment.end,
-                      moneyTextStyle: const TextStyle(color: Colors.white, fontSize: 32.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoThin'),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: <Widget>[
-                          const _AccountMoney(title: '累计结算金额', money: '20000'),
-                          const _AccountMoney(title: '累计发放佣金', money: '0.02'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            _buildCard(),
             Gaps.vGap5,
             ClickItem(
               title: '提现',
@@ -74,6 +44,40 @@ class _AccountPageState extends State<AccountPage> {
           ],
         ),
       )
+    );
+  }
+
+  Widget _buildCard() {
+    return AspectRatio(
+      aspectRatio: 1.85,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 6.0),
+        padding: const EdgeInsets.all(6.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: ImageUtils.getAssetImage('account/bg'),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            const _AccountMoney(
+              title: '当前余额(元)',
+              money: '30.12',
+              alignment: MainAxisAlignment.end,
+              moneyTextStyle: TextStyle(color: Colors.white, fontSize: 32.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoThin'),
+            ),
+            Expanded(
+              child: Row(
+                children: const <Widget>[
+                  _AccountMoney(title: '累计结算金额', money: '20000'),
+                  _AccountMoney(title: '累计发放佣金', money: '0.02'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -102,11 +106,11 @@ class _AccountMoney extends StatelessWidget {
           children: <Widget>[
             /// 横向撑开Column，扩大语义区域
             const SizedBox(width: double.infinity),
-            Text(title, style: TextStyle(color: Colours.text_disabled, fontSize: Dimens.font_sp12)),
+            Text(title, style: const TextStyle(color: Colours.text_disabled, fontSize: Dimens.font_sp12)),
             Gaps.vGap8,
             RiseNumberText(
               NumUtil.getDoubleByValueStr(money),
-              style: moneyTextStyle ?? TextStyle(
+              style: moneyTextStyle ?? const TextStyle(
                 color: Colours.text_disabled, 
                 fontSize: Dimens.font_sp14,
                 fontWeight: FontWeight.bold,

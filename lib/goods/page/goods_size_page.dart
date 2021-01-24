@@ -6,7 +6,7 @@ import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/image_utils.dart';
 import 'package:flutter_deer/util/toast.dart';
-import 'package:flutter_deer/util/utils.dart';
+import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
@@ -54,8 +54,8 @@ class _GoodsSizePageState extends State<GoodsSizePage> {
   void _showHint() {
     final RenderBox hint = _hintKey.currentContext.findRenderObject() as RenderBox;
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    var a = hint.localToGlobal(Offset(50.0, hint.size.height + 150.0), ancestor: overlay);
-    var b = hint.localToGlobal(hint.size.bottomLeft(Offset(50.0, 150.0)), ancestor: overlay);
+    final a = hint.localToGlobal(Offset(50.0, hint.size.height + 150.0), ancestor: overlay);
+    final b = hint.localToGlobal(hint.size.bottomLeft(const Offset(50.0, 150.0)), ancestor: overlay);
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(a, b),
       Offset.zero & overlay.size,
@@ -146,8 +146,8 @@ class _GoodsSizePageState extends State<GoodsSizePage> {
               ) : ListView.builder(
                 itemCount: _goodsSizeList.length,
                 itemExtent: 107.0,
-                itemBuilder: (_, index) => _getGoodsSizeItem(index)
-                ),
+                itemBuilder: (_, index) => _getGoodsSizeItem(index),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -207,7 +207,7 @@ class _GoodsSizePageState extends State<GoodsSizePage> {
                       alignment: Alignment.center,
                       child: Text(
                         '立减${_goodsSizeList[index].reducePrice}元',
-                        style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp10),
+                        style: const TextStyle(color: Colors.white, fontSize: Dimens.font_sp10),
                       ),
                     ),
                   ),
@@ -223,7 +223,7 @@ class _GoodsSizePageState extends State<GoodsSizePage> {
                       alignment: Alignment.center,
                       child: Text(
                         '社区币抵扣${_goodsSizeList[index].currencyPrice}元',
-                        style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp10),
+                        style: const TextStyle(color: Colors.white, fontSize: Dimens.font_sp10),
                       ),
                     ),
                   )
@@ -281,7 +281,7 @@ class _GoodsSizePageState extends State<GoodsSizePage> {
     return Slidable(
       key: Key(index.toString()),
       controller: _slidableController,
-      actionPane: SlidableDrawerActionPane(),
+      actionPane: const SlidableDrawerActionPane(),
       actionExtentRatio: 0.20, 
       ///右侧的action
       secondaryActions: <Widget>[
