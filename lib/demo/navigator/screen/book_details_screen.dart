@@ -4,8 +4,9 @@ import 'package:flutter_deer/demo/navigator/book_entity.dart';
 class BookDetailsScreen extends StatelessWidget {
 
   const BookDetailsScreen({
-    @required this.book,
-  });
+    Key? key,
+    required this.book,
+  }): super(key: key);
 
   final Book book;
 
@@ -17,7 +18,7 @@ class BookDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },

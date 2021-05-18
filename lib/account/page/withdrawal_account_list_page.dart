@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/account/models/withdrawal_account_model.dart';
 import 'package:flutter_deer/res/resources.dart';
@@ -10,6 +9,9 @@ import '../account_router.dart';
 
 /// design/6店铺-账户/index.html#artboard7
 class WithdrawalAccountListPage extends StatefulWidget {
+
+  const WithdrawalAccountListPage({Key? key}) : super(key: key);
+
   @override
   _WithdrawalAccountListPageState createState() => _WithdrawalAccountListPageState();
 }

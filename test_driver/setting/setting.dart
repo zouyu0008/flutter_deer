@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:sp_util/sp_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/setting/page/setting_page.dart';
@@ -10,5 +11,5 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   /// sp初始化
   await SpUtil.getInstance();
-  runApp(MyApp(home: SettingPage()));
+  runApp(MyApp(home: const SettingPage()));
 }

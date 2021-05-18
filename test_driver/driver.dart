@@ -1,4 +1,5 @@
-import 'package:flutter_deer/common/common.dart';
+// @dart=2.9
+import 'package:flutter_deer/res/constant.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:flutter_deer/main.dart' as app;
 

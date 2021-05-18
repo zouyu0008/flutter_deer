@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/account/widgets/sms_verify_dialog.dart';
 import 'package:flutter_deer/account/widgets/withdrawal_password_setting.dart';
@@ -11,6 +10,9 @@ import 'package:flutter_deer/widgets/click_item.dart';
 
 /// design/6店铺-账户/index.html#artboard20
 class WithdrawalPasswordPage extends StatefulWidget {
+
+  const WithdrawalPasswordPage({Key? key}) : super(key: key);
+
   @override
   _WithdrawalPasswordPageState createState() => _WithdrawalPasswordPageState();
 }
@@ -34,7 +36,7 @@ class _WithdrawalPasswordPageState extends State<WithdrawalPasswordPage> {
                 enableDrag: false,
                 /// 使用true则高度不受16分之9的最高限制
                 isScrollControlled: true,
-                builder: (_) => WithdrawalPasswordSetting()
+                builder: (_) => const WithdrawalPasswordSetting()
               );
             }
           ),
@@ -71,7 +73,7 @@ class _WithdrawalPasswordPageState extends State<WithdrawalPasswordPage> {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (_) => SMSVerifyDialog()
+      builder: (_) => const SMSVerifyDialog()
     );
   }
 }

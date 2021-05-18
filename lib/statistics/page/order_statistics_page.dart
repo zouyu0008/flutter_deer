@@ -1,24 +1,22 @@
-
 import 'dart:math';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/statistics/widgets/selected_date.dart';
-import 'package:flutter_deer/util/date_utils.dart';
 import 'package:flutter_deer/util/image_utils.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:flutter_deer/widgets/my_card.dart';
 import 'package:flutter_deer/widgets/bezier_chart/bezier_chart.dart';
-import 'package:flutter_deer/util/date_utils_.dart' as date;
+import 'package:flutter_deer/util/date_utils.dart' as date;
 
 /// design/5统计/index.html#artboard1
 /// design/5统计/index.html#artboard6
 class OrderStatisticsPage extends StatefulWidget {
 
-  const OrderStatisticsPage(this.index, {Key key}) : super(key: key);
+  const OrderStatisticsPage(this.index, {Key? key}) : super(key: key);
 
   final int index;
 
@@ -29,18 +27,18 @@ class OrderStatisticsPage extends StatefulWidget {
 class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerProviderStateMixin {
   
   int _selectedIndex = 2;
-  DateTime _initialDay;
-  Iterable<DateTime> _weeksDays;
-  List<DateTime> _currentMonthsDays;
+  late DateTime _initialDay;
+  late Iterable<DateTime> _weeksDays;
+  late List<DateTime> _currentMonthsDays;
   // 周视图中选择的日期
-  int _selectedWeekDay;
+  late int _selectedWeekDay;
   // 月视图中选择的日期
-  DateTime _selectedDay;
+  late DateTime _selectedDay;
   // 年视图中选择的月份
-  int _selectedMonth;
+  late int _selectedMonth;
   final List<int> _monthList = [];
   bool _isExpanded = true;
-  Color _unSelectedTextColor;
+  late Color _unSelectedTextColor;
   
   static const List<String> _weeks = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
@@ -51,8 +49,8 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
     _selectedWeekDay = _initialDay.day;
     _selectedDay = _initialDay;
     _selectedMonth = _initialDay.month;
-    _weeksDays = date.Utils.daysInRange(date.Utils.previousWeek(_initialDay), DateUtils.nextDay(_initialDay)).toList().sublist(1, 8);
-    _currentMonthsDays = DateUtils.daysInMonth(_initialDay);
+    _weeksDays = date.DateUtils.daysInRange(date.DateUtils.previousWeek(_initialDay), date.DateUtils.nextDay(_initialDay)).toList().sublist(1, 8);
+    _currentMonthsDays = date.DateUtils.daysInMonth(_initialDay);
     _monthList.clear();
     for (int i = 1; i < 13; i ++) {
       _monthList.add(i);
@@ -84,7 +82,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
                   Gaps.hGap12,
                   Gaps.vLine,
                   Gaps.hGap12,
-                  _buildButton('${DateUtils.previousWeek(_initialDay)} -${DateUtils.apiDayFormat(_initialDay)}', const Key('day'), 2),
+                  _buildButton('${date.DateUtils.previousWeekToString(_initialDay)} -${date.DateUtils.apiDayFormat2(_initialDay)}', const Key('day'), 2),
                 ],
               ),
               Gaps.vGap16,
@@ -136,7 +134,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
                   children: <Widget>[
                     Text(widget.index == 1 ? '订单走势' : '交易额走势', style: TextStyles.textBold18),
                     Gaps.vGap16,
-                    _buildChart(Colours.app_main, const Color(0x805793FA), widget.index == 1 ? '全部订单' : '交易额(元)', '3000'),
+                    _buildChart(Colours.app_main, Colours.shadow_blue, widget.index == 1 ? '全部订单' : '交易额(元)', '3000'),
                     if (widget.index == 1) Column(
                       children: <Widget>[
                         Gaps.vGap16,
@@ -157,7 +155,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
   }
   
   Widget _buildButton(String text, Key key, int index) {
-    return SelectedDate(
+    return SelectedDateButton(
       text,
       key: key,
       fontSize: Dimens.font_sp15,
@@ -255,11 +253,11 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
   }
 
   Widget _buildCalendar() {
-    List<Widget> children;
+    List<Widget> children = [];
     if (_selectedIndex == 0) {
-      children = _builderMonthCalendar();
+      children = _builderYearCalendar();
     } else if (_selectedIndex == 1) {
-      children = _builderCalendar();
+      children = _builderMonthCalendar();
     } else if (_selectedIndex == 2) {
       children = _builderWeekCalendar();
     }
@@ -282,23 +280,23 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
     return widgets;
   }
 
-  List<Widget> _builderCalendar() {
+  List<Widget> _builderMonthCalendar() {
     final List<Widget> dayWidgets = [];
     List<DateTime> list;
     if (_isExpanded) {
       list = _currentMonthsDays;
     } else {
-      list = DateUtils.daysInWeek(_selectedDay);
+      list = date.DateUtils.daysInWeek(_selectedDay);
     }
     dayWidgets.addAll(_buildWeeks());
     list.forEach((day) {
       dayWidgets.add(
         Center(
-          child: SelectedDate(
+          child: SelectedDateButton(
             day.day.toString().padLeft(2, '0'), // 不足2位左边补0
-            selected: day.day == _selectedDay.day && !DateUtils.isExtraDay(day, _initialDay),
+            selected: day.day == _selectedDay.day && !date.DateUtils.isExtraDay(day, _initialDay),
             // 不是本月的日期与超过当前日期的不可点击
-            enable: day.day <= _initialDay.day && !DateUtils.isExtraDay(day, _initialDay),
+            enable: day.day <= _initialDay.day && !date.DateUtils.isExtraDay(day, _initialDay),
             unSelectedTextColor: _unSelectedTextColor,
             /// 日历中的具体日期添加完整语义
             semanticsLabel: DateUtil.formatDate(day, format: DateFormats.zh_y_mo_d),
@@ -314,12 +312,12 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
     return dayWidgets;
   }
 
-  List<Widget> _builderMonthCalendar() {
+  List<Widget> _builderYearCalendar() {
     final List<Widget> monthWidgets = [];
     _monthList.forEach((month) {
       monthWidgets.add(
         Center(
-          child: SelectedDate(
+          child: SelectedDateButton(
             '$month月',
             selected: month == _selectedMonth,
             enable: month <= _initialDay.month,
@@ -341,7 +339,7 @@ class _OrderStatisticsPageState extends State<OrderStatisticsPage> with TickerPr
     _weeksDays.forEach((day) {
       dayWidgets.add(
         Center(
-          child: SelectedDate(
+          child: SelectedDateButton(
             day.day.toString().padLeft(2, '0'),
             selected: day.day == _selectedWeekDay,
             unSelectedTextColor: _unSelectedTextColor,
